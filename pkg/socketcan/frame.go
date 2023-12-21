@@ -4,6 +4,7 @@ import (
 	"encoding/binary"
 
 	"go.einride.tech/can"
+	"golang.org/x/exp/constraints"
 )
 
 const (
@@ -101,7 +102,7 @@ func (f *frame) decodeFrame() can.Frame {
 	return can.Frame{
 		ID:         f.id(),
 		Length:     f.dataLengthCode,
-		Data:       f.data,
+		Data:       f.data[:],
 		IsExtended: f.isExtended(),
 		IsRemote:   f.isRemote(),
 	}
@@ -116,7 +117,9 @@ func (f *frame) encodeFrame(cf can.Frame) {
 		f.idAndFlags |= idFlagExtended
 	}
 	f.dataLengthCode = cf.Length
-	f.data = cf.Data
+	// f.data = cf.Data
+	// copy(f.data, [8]byte(cf.Data[:min(8, len(cf.Data))]))
+	copy(f.data[:], cf.Data)
 }
 
 func (f *frame) isExtended() bool {
@@ -180,4 +183,11 @@ func (f *frame) controllerSpecificInformation() [LengthOfControllerSpecificInfor
 	end := start + LengthOfControllerSpecificInformation
 	copy(ret[:], f.data[start:end])
 	return ret
+}
+
+func min[T constraints.Ordered](x, y T) T {
+	if x < y {
+		return x
+	}
+	return y
 }

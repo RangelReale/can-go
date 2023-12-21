@@ -95,7 +95,9 @@ const MaxDataLength = 8
 //	+-----+  +------+------+------+------+------+------+------+------+
 //	|  7  |  |  <------LSb |  61  |  60  |  59  |  58  |  57  |  56  |
 //	+-----+  +------+------+------+------+------+------+------+------+
-type Data [MaxDataLength]byte
+//
+// type Data [MaxDataLength]byte
+type Data []byte
 
 // UnsignedBitsLittleEndian returns the little-endian bit range [start, start+length) as an unsigned value.
 func (d *Data) UnsignedBitsLittleEndian(start, length uint8) uint64 {
@@ -141,6 +143,9 @@ func (d *Data) SignedBitsBigEndian(start, length uint8) int64 {
 
 // SetUnsignedBitsBigEndian sets the little-endian bit range [start, start+length) to the provided unsigned value.
 func (d *Data) SetUnsignedBitsLittleEndian(start, length uint8, value uint64) {
+	if length > 0 {
+		d.ensureBitSize(start + length - 1)
+	}
 	// pack bits into one continuous value
 	packed := d.PackLittleEndian()
 	// lsb index in the packed value is the start bit
@@ -157,6 +162,9 @@ func (d *Data) SetUnsignedBitsLittleEndian(start, length uint8, value uint64) {
 
 // SetUnsignedBitsBigEndian sets the big-endian bit range [start, start+length) to the provided unsigned value.
 func (d *Data) SetUnsignedBitsBigEndian(start, length uint8, value uint64) {
+	if length > 0 {
+		d.ensureBitSize(start + length - 1)
+	}
 	// pack bits into one continuous value
 	packed := d.PackBigEndian()
 	// calculate msb index in the packed value
@@ -185,7 +193,10 @@ func (d *Data) SetSignedBitsBigEndian(start, length uint8, value int64) {
 
 // Bit returns the value of the i:th bit in the data as a bool.
 func (d *Data) Bit(i uint8) bool {
-	if i > 63 {
+	// if i > 63 {
+	// 	return false
+	// }
+	if int(i) > 8*len(*d)-1 {
 		return false
 	}
 	// calculate which byte the bit belongs to
@@ -193,75 +204,103 @@ func (d *Data) Bit(i uint8) bool {
 	// calculate bit mask for extracting the bit
 	bitMask := uint8(1 << (i % 8))
 	// mocks the bit
-	bit := d[byteIndex]&bitMask > 0
+	bit := (*d)[byteIndex]&bitMask > 0
 	// done
 	return bit
 }
 
+func (d *Data) ensureBitSize(i uint8) {
+	byteIndex := i / 8
+	// bitIndex := i % 8
+	sz := int(byteIndex) + 1
+	// if bitIndex != 0 {
+	// 	sz++
+	// }
+	if len(*d) < sz {
+		*d = append(*d, make([]byte, sz-len(*d))...)
+	}
+}
+
 // SetBit sets the value of the i:th bit in the data.
 func (d *Data) SetBit(i uint8, value bool) {
-	if i > 63 {
-		return
-	}
+	// if i > 63 {
+	// 	return
+	// }
+	// if int(i) > 8*len(d)-1 {
+	// 	return
+	// }
+	d.ensureBitSize(i)
 	byteIndex := i / 8
 	bitIndex := i % 8
 	if value {
-		d[byteIndex] |= uint8(1 << bitIndex)
+		(*d)[byteIndex] |= uint8(1 << bitIndex)
 	} else {
-		d[byteIndex] &= ^uint8(1 << bitIndex)
+		(*d)[byteIndex] &= ^uint8(1 << bitIndex)
 	}
 }
 
 // PackLittleEndian packs the data into a contiguous uint64 value for little-endian signals.
 func (d *Data) PackLittleEndian() uint64 {
 	var packed uint64
-	packed |= uint64(d[0]) << (0 * 8)
-	packed |= uint64(d[1]) << (1 * 8)
-	packed |= uint64(d[2]) << (2 * 8)
-	packed |= uint64(d[3]) << (3 * 8)
-	packed |= uint64(d[4]) << (4 * 8)
-	packed |= uint64(d[5]) << (5 * 8)
-	packed |= uint64(d[6]) << (6 * 8)
-	packed |= uint64(d[7]) << (7 * 8)
+	for i := 0; i < len(*d); i++ {
+		packed |= uint64((*d)[i]) << (i * 8)
+	}
+	// packed |= uint64(d[0]) << (0 * 8)
+	// packed |= uint64(d[1]) << (1 * 8)
+	// packed |= uint64(d[2]) << (2 * 8)
+	// packed |= uint64(d[3]) << (3 * 8)
+	// packed |= uint64(d[4]) << (4 * 8)
+	// packed |= uint64(d[5]) << (5 * 8)
+	// packed |= uint64(d[6]) << (6 * 8)
+	// packed |= uint64(d[7]) << (7 * 8)
 	return packed
 }
 
 // PackBigEndian packs the data into a contiguous uint64 value for big-endian signals.
 func (d *Data) PackBigEndian() uint64 {
 	var packed uint64
-	packed |= uint64(d[0]) << (7 * 8)
-	packed |= uint64(d[1]) << (6 * 8)
-	packed |= uint64(d[2]) << (5 * 8)
-	packed |= uint64(d[3]) << (4 * 8)
-	packed |= uint64(d[4]) << (3 * 8)
-	packed |= uint64(d[5]) << (2 * 8)
-	packed |= uint64(d[6]) << (1 * 8)
-	packed |= uint64(d[7]) << (0 * 8)
+	for i := 0; i < len(*d); i++ {
+		packed |= uint64((*d)[i]) << ((len(*d) - i - 1) * 8)
+	}
+	// packed |= uint64(d[0]) << (7 * 8)
+	// packed |= uint64(d[1]) << (6 * 8)
+	// packed |= uint64(d[2]) << (5 * 8)
+	// packed |= uint64(d[3]) << (4 * 8)
+	// packed |= uint64(d[4]) << (3 * 8)
+	// packed |= uint64(d[5]) << (2 * 8)
+	// packed |= uint64(d[6]) << (1 * 8)
+	// packed |= uint64(d[7]) << (0 * 8)
 	return packed
 }
 
 // UnpackLittleEndian sets the value of d.Bytes by unpacking the provided value as sequential little-endian bits.
 func (d *Data) UnpackLittleEndian(packed uint64) {
-	d[0] = uint8(packed >> (0 * 8))
-	d[1] = uint8(packed >> (1 * 8))
-	d[2] = uint8(packed >> (2 * 8))
-	d[3] = uint8(packed >> (3 * 8))
-	d[4] = uint8(packed >> (4 * 8))
-	d[5] = uint8(packed >> (5 * 8))
-	d[6] = uint8(packed >> (6 * 8))
-	d[7] = uint8(packed >> (7 * 8))
+	for i := 0; i < len(*d); i++ {
+		(*d)[i] = uint8(packed >> (i * 8))
+	}
+	// d[0] = uint8(packed >> (0 * 8))
+	// d[1] = uint8(packed >> (1 * 8))
+	// d[2] = uint8(packed >> (2 * 8))
+	// d[3] = uint8(packed >> (3 * 8))
+	// d[4] = uint8(packed >> (4 * 8))
+	// d[5] = uint8(packed >> (5 * 8))
+	// d[6] = uint8(packed >> (6 * 8))
+	// d[7] = uint8(packed >> (7 * 8))
 }
 
 // UnpackBigEndian sets the value of d.Bytes by unpacking the provided value as sequential big-endian bits.
 func (d *Data) UnpackBigEndian(packed uint64) {
-	d[0] = uint8(packed >> (7 * 8))
-	d[1] = uint8(packed >> (6 * 8))
-	d[2] = uint8(packed >> (5 * 8))
-	d[3] = uint8(packed >> (4 * 8))
-	d[4] = uint8(packed >> (3 * 8))
-	d[5] = uint8(packed >> (2 * 8))
-	d[6] = uint8(packed >> (1 * 8))
-	d[7] = uint8(packed >> (0 * 8))
+	for i := 0; i < len(*d); i++ {
+		(*d)[i] = uint8(packed >> ((len(*d) - i - 1) * 8))
+	}
+	// d[0] = uint8(packed >> (7 * 8))
+	// d[1] = uint8(packed >> (6 * 8))
+	// d[2] = uint8(packed >> (5 * 8))
+	// d[3] = uint8(packed >> (4 * 8))
+	// d[4] = uint8(packed >> (3 * 8))
+	// d[5] = uint8(packed >> (2 * 8))
+	// d[6] = uint8(packed >> (1 * 8))
+	// d[7] = uint8(packed >> (0 * 8))
 }
 
 // invertEndian converts from big-endian to little-endian bit indexing and vice versa.
