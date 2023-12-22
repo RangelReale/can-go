@@ -10,7 +10,7 @@ import (
 func TestReinterpretSign(t *testing.T) {
 	for _, tt := range []struct {
 		unsigned uint64
-		length   uint8
+		length   uint16
 		signed   int64
 	}{
 		// -1, byte aligned

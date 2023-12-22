@@ -96,6 +96,7 @@ func (Frame) Generate(rand *rand.Rand, _ int) reflect.Value {
 	f := Frame{
 		IsExtended: rand.Intn(2) == 0,
 		IsRemote:   rand.Intn(2) == 0,
+		Data:       make(Data, 8),
 	}
 	if f.IsExtended {
 		f.ID = rand.Uint32() & MaxExtendedID

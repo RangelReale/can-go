@@ -101,7 +101,7 @@ func (f *frame) decodeFrame() can.Frame {
 	return can.Frame{
 		ID:         f.id(),
 		Length:     f.dataLengthCode,
-		Data:       f.data,
+		Data:       f.data[:],
 		IsExtended: f.isExtended(),
 		IsRemote:   f.isRemote(),
 	}
@@ -116,7 +116,8 @@ func (f *frame) encodeFrame(cf can.Frame) {
 		f.idAndFlags |= idFlagExtended
 	}
 	f.dataLengthCode = cf.Length
-	f.data = cf.Data
+	copy(f.data[:], cf.Data)
+	// f.data = cf.Data
 }
 
 func (f *frame) isExtended() bool {
