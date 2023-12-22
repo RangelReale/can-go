@@ -1,5 +1,7 @@
 package can
 
+// https://bitbucket.org/tobylorenz/vector_dbc/src/master/src/Vector/DBC/Signal.cpp
+
 type ByteOrder uint8
 
 const (
