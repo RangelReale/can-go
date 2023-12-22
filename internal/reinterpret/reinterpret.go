@@ -2,7 +2,7 @@
 package reinterpret
 
 // AsSigned reinterprets the provided unsigned value as a signed value.
-func AsSigned(unsigned uint64, bits uint8) int64 {
+func AsSigned(unsigned uint64, bits uint16) int64 {
 	switch bits {
 	case 8:
 		return int64(int8(uint8(unsigned)))
@@ -31,7 +31,7 @@ func AsSigned(unsigned uint64, bits uint8) int64 {
 }
 
 // AsUnsigned reinterprets the provided signed value as an unsigned value.
-func AsUnsigned(signed int64, bits uint8) uint64 {
+func AsUnsigned(signed int64, bits uint16) uint64 {
 	switch bits {
 	case 8:
 		return uint64(uint8(int8(signed)))

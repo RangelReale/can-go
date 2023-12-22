@@ -11,9 +11,9 @@ type Signal struct {
 	// Description of the signal.
 	Name string
 	// Start bit.
-	Start uint8
+	Start uint16
 	// Length in bits.
-	Length uint8
+	Length uint16
 	// IsBigEndian is true if the signal is big-endian.
 	IsBigEndian bool
 	// IsSigned is true if the signal uses raw signed values.

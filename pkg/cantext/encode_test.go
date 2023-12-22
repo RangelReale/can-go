@@ -107,8 +107,8 @@ func newDriverHeartbeatDescriptor() *descriptor.Message {
 		Signals: []*descriptor.Signal{
 			{
 				Name:             (string)("Command"),
-				Start:            (uint8)(0),
-				Length:           (uint8)(8),
+				Start:            (uint16)(0),
+				Length:           (uint16)(8),
 				IsBigEndian:      (bool)(false),
 				IsSigned:         (bool)(false),
 				IsMultiplexer:    (bool)(false),
@@ -155,8 +155,8 @@ func newMotorStatusDescriptor() *descriptor.Message {
 		Signals: []*descriptor.Signal{
 			{
 				Name:              (string)("WheelError"),
-				Start:             (uint8)(0),
-				Length:            (uint8)(1),
+				Start:             (uint16)(0),
+				Length:            (uint16)(1),
 				IsBigEndian:       (bool)(false),
 				IsSigned:          (bool)(false),
 				IsMultiplexer:     (bool)(false),
@@ -177,8 +177,8 @@ func newMotorStatusDescriptor() *descriptor.Message {
 			},
 			{
 				Name:              (string)("SpeedKph"),
-				Start:             (uint8)(8),
-				Length:            (uint8)(16),
+				Start:             (uint16)(8),
+				Length:            (uint16)(16),
 				IsBigEndian:       (bool)(false),
 				IsSigned:          (bool)(false),
 				IsMultiplexer:     (bool)(false),

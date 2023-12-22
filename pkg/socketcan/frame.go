@@ -98,13 +98,14 @@ func (f *frame) marshalBinary(b []byte) {
 }
 
 func (f *frame) decodeFrame() can.Frame {
-	return can.Frame{
+	frame := can.Frame{
 		ID:         f.id(),
 		Length:     f.dataLengthCode,
-		Data:       f.data,
 		IsExtended: f.isExtended(),
 		IsRemote:   f.isRemote(),
 	}
+	copy(frame.Data[0:8], f.data[:])
+	return frame
 }
 
 func (f *frame) encodeFrame(cf can.Frame) {
@@ -116,7 +117,8 @@ func (f *frame) encodeFrame(cf can.Frame) {
 		f.idAndFlags |= idFlagExtended
 	}
 	f.dataLengthCode = cf.Length
-	f.data = cf.Data
+	// f.data = cf.Data
+	copy(f.data[:], cf.Data[0:8])
 }
 
 func (f *frame) isExtended() bool {
