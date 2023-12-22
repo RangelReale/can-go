@@ -2470,8 +2470,8 @@ var d = (*descriptor.Database)(&descriptor.Database{
 			Signals: ([]*descriptor.Signal)([]*descriptor.Signal{
 				(*descriptor.Signal)(&descriptor.Signal{
 					Name:             (string)("Command"),
-					Start:            (uint8)(0),
-					Length:           (uint8)(8),
+					Start:            (uint16)(0),
+					Length:           (uint16)(8),
 					IsBigEndian:      (bool)(false),
 					IsSigned:         (bool)(false),
 					IsMultiplexer:    (bool)(false),
@@ -2522,8 +2522,8 @@ var d = (*descriptor.Database)(&descriptor.Database{
 			Signals: ([]*descriptor.Signal)([]*descriptor.Signal{
 				(*descriptor.Signal)(&descriptor.Signal{
 					Name:              (string)("Steer"),
-					Start:             (uint8)(0),
-					Length:            (uint8)(4),
+					Start:             (uint16)(0),
+					Length:            (uint16)(4),
 					IsBigEndian:       (bool)(false),
 					IsSigned:          (bool)(true),
 					IsMultiplexer:     (bool)(false),
@@ -2543,8 +2543,8 @@ var d = (*descriptor.Database)(&descriptor.Database{
 				}),
 				(*descriptor.Signal)(&descriptor.Signal{
 					Name:              (string)("Drive"),
-					Start:             (uint8)(4),
-					Length:            (uint8)(4),
+					Start:             (uint16)(4),
+					Length:            (uint16)(4),
 					IsBigEndian:       (bool)(false),
 					IsSigned:          (bool)(false),
 					IsMultiplexer:     (bool)(false),
@@ -2577,8 +2577,8 @@ var d = (*descriptor.Database)(&descriptor.Database{
 			Signals: ([]*descriptor.Signal)([]*descriptor.Signal{
 				(*descriptor.Signal)(&descriptor.Signal{
 					Name:              (string)("Mux"),
-					Start:             (uint8)(0),
-					Length:            (uint8)(4),
+					Start:             (uint16)(0),
+					Length:            (uint16)(4),
 					IsBigEndian:       (bool)(false),
 					IsSigned:          (bool)(false),
 					IsMultiplexer:     (bool)(true),
@@ -2599,8 +2599,8 @@ var d = (*descriptor.Database)(&descriptor.Database{
 				}),
 				(*descriptor.Signal)(&descriptor.Signal{
 					Name:              (string)("ErrCount"),
-					Start:             (uint8)(4),
-					Length:            (uint8)(12),
+					Start:             (uint16)(4),
+					Length:            (uint16)(12),
 					IsBigEndian:       (bool)(false),
 					IsSigned:          (bool)(false),
 					IsMultiplexer:     (bool)(false),
@@ -2621,8 +2621,8 @@ var d = (*descriptor.Database)(&descriptor.Database{
 				}),
 				(*descriptor.Signal)(&descriptor.Signal{
 					Name:              (string)("Left"),
-					Start:             (uint8)(16),
-					Length:            (uint8)(12),
+					Start:             (uint16)(16),
+					Length:            (uint16)(12),
 					IsBigEndian:       (bool)(false),
 					IsSigned:          (bool)(false),
 					IsMultiplexer:     (bool)(false),
@@ -2643,8 +2643,8 @@ var d = (*descriptor.Database)(&descriptor.Database{
 				}),
 				(*descriptor.Signal)(&descriptor.Signal{
 					Name:              (string)("NoFiltLeft"),
-					Start:             (uint8)(16),
-					Length:            (uint8)(12),
+					Start:             (uint16)(16),
+					Length:            (uint16)(12),
 					IsBigEndian:       (bool)(false),
 					IsSigned:          (bool)(false),
 					IsMultiplexer:     (bool)(false),
@@ -2664,8 +2664,8 @@ var d = (*descriptor.Database)(&descriptor.Database{
 				}),
 				(*descriptor.Signal)(&descriptor.Signal{
 					Name:              (string)("Middle"),
-					Start:             (uint8)(28),
-					Length:            (uint8)(12),
+					Start:             (uint16)(28),
+					Length:            (uint16)(12),
 					IsBigEndian:       (bool)(false),
 					IsSigned:          (bool)(false),
 					IsMultiplexer:     (bool)(false),
@@ -2686,8 +2686,8 @@ var d = (*descriptor.Database)(&descriptor.Database{
 				}),
 				(*descriptor.Signal)(&descriptor.Signal{
 					Name:              (string)("NoFiltMiddle"),
-					Start:             (uint8)(28),
-					Length:            (uint8)(12),
+					Start:             (uint16)(28),
+					Length:            (uint16)(12),
 					IsBigEndian:       (bool)(false),
 					IsSigned:          (bool)(false),
 					IsMultiplexer:     (bool)(false),
@@ -2707,8 +2707,8 @@ var d = (*descriptor.Database)(&descriptor.Database{
 				}),
 				(*descriptor.Signal)(&descriptor.Signal{
 					Name:              (string)("Right"),
-					Start:             (uint8)(40),
-					Length:            (uint8)(12),
+					Start:             (uint16)(40),
+					Length:            (uint16)(12),
 					IsBigEndian:       (bool)(false),
 					IsSigned:          (bool)(false),
 					IsMultiplexer:     (bool)(false),
@@ -2729,8 +2729,8 @@ var d = (*descriptor.Database)(&descriptor.Database{
 				}),
 				(*descriptor.Signal)(&descriptor.Signal{
 					Name:              (string)("NoFiltRight"),
-					Start:             (uint8)(40),
-					Length:            (uint8)(12),
+					Start:             (uint16)(40),
+					Length:            (uint16)(12),
 					IsBigEndian:       (bool)(false),
 					IsSigned:          (bool)(false),
 					IsMultiplexer:     (bool)(false),
@@ -2750,8 +2750,8 @@ var d = (*descriptor.Database)(&descriptor.Database{
 				}),
 				(*descriptor.Signal)(&descriptor.Signal{
 					Name:              (string)("Rear"),
-					Start:             (uint8)(52),
-					Length:            (uint8)(12),
+					Start:             (uint16)(52),
+					Length:            (uint16)(12),
 					IsBigEndian:       (bool)(false),
 					IsSigned:          (bool)(false),
 					IsMultiplexer:     (bool)(false),
@@ -2772,8 +2772,8 @@ var d = (*descriptor.Database)(&descriptor.Database{
 				}),
 				(*descriptor.Signal)(&descriptor.Signal{
 					Name:              (string)("NoFiltRear"),
-					Start:             (uint8)(52),
-					Length:            (uint8)(12),
+					Start:             (uint16)(52),
+					Length:            (uint16)(12),
 					IsBigEndian:       (bool)(false),
 					IsSigned:          (bool)(false),
 					IsMultiplexer:     (bool)(false),
@@ -2806,8 +2806,8 @@ var d = (*descriptor.Database)(&descriptor.Database{
 			Signals: ([]*descriptor.Signal)([]*descriptor.Signal{
 				(*descriptor.Signal)(&descriptor.Signal{
 					Name:              (string)("WheelError"),
-					Start:             (uint8)(0),
-					Length:            (uint8)(1),
+					Start:             (uint16)(0),
+					Length:            (uint16)(1),
 					IsBigEndian:       (bool)(false),
 					IsSigned:          (bool)(false),
 					IsMultiplexer:     (bool)(false),
@@ -2828,8 +2828,8 @@ var d = (*descriptor.Database)(&descriptor.Database{
 				}),
 				(*descriptor.Signal)(&descriptor.Signal{
 					Name:              (string)("SpeedKph"),
-					Start:             (uint8)(8),
-					Length:            (uint8)(16),
+					Start:             (uint16)(8),
+					Length:            (uint16)(16),
 					IsBigEndian:       (bool)(false),
 					IsSigned:          (bool)(false),
 					IsMultiplexer:     (bool)(false),
@@ -2863,8 +2863,8 @@ var d = (*descriptor.Database)(&descriptor.Database{
 			Signals: ([]*descriptor.Signal)([]*descriptor.Signal{
 				(*descriptor.Signal)(&descriptor.Signal{
 					Name:              (string)("TestUnsigned"),
-					Start:             (uint8)(0),
-					Length:            (uint8)(8),
+					Start:             (uint16)(0),
+					Length:            (uint16)(8),
 					IsBigEndian:       (bool)(false),
 					IsSigned:          (bool)(false),
 					IsMultiplexer:     (bool)(false),
@@ -2884,8 +2884,8 @@ var d = (*descriptor.Database)(&descriptor.Database{
 				}),
 				(*descriptor.Signal)(&descriptor.Signal{
 					Name:             (string)("TestEnum"),
-					Start:            (uint8)(8),
-					Length:           (uint8)(6),
+					Start:            (uint16)(8),
+					Length:           (uint16)(6),
 					IsBigEndian:      (bool)(false),
 					IsSigned:         (bool)(false),
 					IsMultiplexer:    (bool)(false),
@@ -2914,8 +2914,8 @@ var d = (*descriptor.Database)(&descriptor.Database{
 				}),
 				(*descriptor.Signal)(&descriptor.Signal{
 					Name:              (string)("TestSigned"),
-					Start:             (uint8)(16),
-					Length:            (uint8)(8),
+					Start:             (uint16)(16),
+					Length:            (uint16)(8),
 					IsBigEndian:       (bool)(false),
 					IsSigned:          (bool)(true),
 					IsMultiplexer:     (bool)(false),
@@ -2935,8 +2935,8 @@ var d = (*descriptor.Database)(&descriptor.Database{
 				}),
 				(*descriptor.Signal)(&descriptor.Signal{
 					Name:              (string)("TestFloat"),
-					Start:             (uint8)(24),
-					Length:            (uint8)(8),
+					Start:             (uint16)(24),
+					Length:            (uint16)(8),
 					IsBigEndian:       (bool)(false),
 					IsSigned:          (bool)(false),
 					IsMultiplexer:     (bool)(false),
@@ -2956,8 +2956,8 @@ var d = (*descriptor.Database)(&descriptor.Database{
 				}),
 				(*descriptor.Signal)(&descriptor.Signal{
 					Name:             (string)("TestBoolEnum"),
-					Start:            (uint8)(32),
-					Length:           (uint8)(1),
+					Start:            (uint16)(32),
+					Length:           (uint16)(1),
 					IsBigEndian:      (bool)(false),
 					IsSigned:         (bool)(false),
 					IsMultiplexer:    (bool)(false),
@@ -2986,8 +2986,8 @@ var d = (*descriptor.Database)(&descriptor.Database{
 				}),
 				(*descriptor.Signal)(&descriptor.Signal{
 					Name:             (string)("TestScaledEnum"),
-					Start:            (uint8)(40),
-					Length:           (uint8)(2),
+					Start:            (uint16)(40),
+					Length:           (uint16)(2),
 					IsBigEndian:      (bool)(false),
 					IsSigned:         (bool)(false),
 					IsMultiplexer:    (bool)(false),
