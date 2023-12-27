@@ -43,7 +43,8 @@ type Signal struct {
 	// DefaultValue of the signal.
 	DefaultValue int
 	// ValueType is the extended signal value type.
-	ValueType SignalValueType
+	ValueType      SignalValueType
+	MultiplexerIDs []*SignalMultiplexValue
 }
 
 // ValueDescription returns the value description for the provided value.

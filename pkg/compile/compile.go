@@ -174,6 +174,25 @@ func (c *compiler) addMetadata() {
 					sig.DefaultValue = int(def.IntValue)
 				}
 			}
+		case *dbc.SignalMultiplexValueDef:
+			sig, ok := c.db.Signal(def.MessageID.ToCAN(), string(def.SignalName))
+			if !ok {
+				c.addWarning(&compileError{def: def, reason: "no declared signal"})
+				continue
+			}
+
+			var ranges []descriptor.SignalMultiplexRangeValue
+			for _, rng := range def.Ranges {
+				ranges = append(ranges, descriptor.SignalMultiplexRangeValue{
+					RangeStart: rng.RangeStart,
+					RangeEnd:   rng.RangeEnd,
+				})
+			}
+
+			sig.MultiplexerIDs = append(sig.MultiplexerIDs, &descriptor.SignalMultiplexValue{
+				MultiplexerSwitch: string(def.MultiplexerSwitch),
+				Ranges:            ranges,
+			})
 		case *dbc.SignalValueTypeDef:
 			sig, ok := c.db.Signal(def.MessageID.ToCAN(), string(def.SignalName))
 			if !ok {

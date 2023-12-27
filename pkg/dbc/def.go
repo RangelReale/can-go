@@ -309,6 +309,19 @@ func (d *SignalDef) parseFrom(p *Parser) {
 		if tok.typ != scanner.Ident {
 			p.failf(tok.pos, "expected ident")
 		}
+		// switch {
+		// case tok.txt == "M":
+		// 	d.IsMultiplexerSwitch = true
+		// case tok.txt[0] == 'm' && len(tok.txt) > 1:
+		// 	d.IsMultiplexed = true
+		// 	i, err := strconv.Atoi(tok.txt[1:])
+		// 	if err != nil || i < 0 {
+		// 		p.failf(tok.pos, "invalid multiplexer value")
+		// 	}
+		// 	d.MultiplexerSwitch = uint64(i)
+		// default:
+		// 	p.failf(tok.pos, "expected multiplexer")
+		// }
 		rem := tok.txt
 		if len(rem) > 1 && rem[0] == 'm' {
 			d.IsMultiplexed = true
@@ -367,11 +380,53 @@ type SignalMultiplexValueDef struct {
 	// MessageID contains the message CAN ID associated with the signal multiplex value.
 	MessageID MessageID
 
-	// Signal in the message that is multiplexed.
-	Signal Identifier
+	// SignalName in the message that is multiplexed.
+	SignalName Identifier
 
 	// MultiplexerSwitch in the message.
 	MultiplexerSwitch Identifier
+
+	Ranges []SignalMultiplexValueRangeDef
+
+	// // RangeStart of the values of the MultiplexerSwitch that will trigger Signal.
+	// RangeStart uint64
+	//
+	// // RangeEnd of the values of the MultiplexerSwitch that will trigger Signal.
+	// RangeEnd uint64
+}
+
+var _ Def = &SignalMultiplexValueDef{}
+
+func (d *SignalMultiplexValueDef) parseFrom(p *Parser) {
+	d.Pos = p.keyword(KeywordSignalMultiplexValue).pos
+	d.MessageID = p.messageID()
+	d.SignalName = p.identifier()
+	d.MultiplexerSwitch = p.identifier()
+
+	for p.peekToken().typ != ';' {
+		rangeDef := SignalMultiplexValueRangeDef{}
+		rangeDef.parseFrom(p)
+		d.Ranges = append(d.Ranges, rangeDef)
+		for p.peekToken().typ == ',' {
+			p.token(',')
+		}
+	}
+
+	// d.RangeStart = p.uint()
+	// p.token('-')
+	// d.RangeEnd = p.uint()
+	p.token(';')
+}
+
+// Position returns the position of the definition.
+func (d *SignalMultiplexValueDef) Position() scanner.Position {
+	return d.Pos
+}
+
+// SignalMultiplexValueRangeDef defines a signal multiplex value within a message.
+type SignalMultiplexValueRangeDef struct {
+	// Pos is the position of the definition.
+	Pos scanner.Position
 
 	// RangeStart of the values of the MultiplexerSwitch that will trigger Signal.
 	RangeStart uint64
@@ -380,21 +435,17 @@ type SignalMultiplexValueDef struct {
 	RangeEnd uint64
 }
 
-var _ Def = &SignalMultiplexValueDef{}
+var _ Def = &SignalMultiplexValueRangeDef{}
 
-func (d *SignalMultiplexValueDef) parseFrom(p *Parser) {
-	d.Pos = p.keyword(KeywordSignalMultiplexValue).pos
-	d.MessageID = p.messageID()
-	d.Signal = p.identifier()
-	d.MultiplexerSwitch = p.identifier()
+func (d *SignalMultiplexValueRangeDef) parseFrom(p *Parser) {
+	d.Pos = p.peekToken().pos
 	d.RangeStart = p.uint()
 	p.token('-')
 	d.RangeEnd = p.uint()
-	p.token(';')
 }
 
 // Position returns the position of the definition.
-func (d *SignalMultiplexValueDef) Position() scanner.Position {
+func (d *SignalMultiplexValueRangeDef) Position() scanner.Position {
 	return d.Pos
 }
 

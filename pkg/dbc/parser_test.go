@@ -281,10 +281,19 @@ func TestParser_Parse(t *testing.T) {
 						Column:   1,
 					},
 					MessageID:         2024,
-					Signal:            "S1_PID_5B_HybrBatPackRemLife",
+					SignalName:        "S1_PID_5B_HybrBatPackRemLife",
 					MultiplexerSwitch: "ParameterID_Service01",
-					RangeStart:        91,
-					RangeEnd:          91,
+					Ranges: []SignalMultiplexValueRangeDef{
+						{
+							Pos: scanner.Position{
+								Filename: "CSS-Electronics-OBD2-v1.4.dbc",
+								Line:     1,
+								Column:   69,
+							},
+							RangeStart: 91,
+							RangeEnd:   91,
+						},
+					},
 				},
 			},
 		},
