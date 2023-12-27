@@ -181,17 +181,19 @@ func (c *compiler) addMetadata() {
 				continue
 			}
 
-			var ranges []descriptor.SignalMultiplexRangeValue
+			var multiplexerIDs []uint
 			for _, rng := range def.Ranges {
-				ranges = append(ranges, descriptor.SignalMultiplexRangeValue{
-					RangeStart: rng.RangeStart,
-					RangeEnd:   rng.RangeEnd,
-				})
+				if rng.RangeEnd >= rng.RangeStart {
+					for r := uint(rng.RangeStart); r <= uint(rng.RangeEnd); r++ {
+						multiplexerIDs = append(multiplexerIDs, r)
+					}
+				}
+
 			}
 
 			sig.MultiplexerIDs = append(sig.MultiplexerIDs, &descriptor.SignalMultiplexValue{
 				MultiplexerSwitch: string(def.MultiplexerSwitch),
-				Ranges:            ranges,
+				MultiplexerIDs:    multiplexerIDs,
 			})
 		case *dbc.SignalValueTypeDef:
 			sig, ok := c.db.Signal(def.MessageID.ToCAN(), string(def.SignalName))
