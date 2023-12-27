@@ -42,6 +42,8 @@ type Signal struct {
 	ReceiverNodes []string
 	// DefaultValue of the signal.
 	DefaultValue int
+	// ValueType is the extended signal value type.
+	ValueType SignalValueType
 }
 
 // ValueDescription returns the value description for the provided value.

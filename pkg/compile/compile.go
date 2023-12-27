@@ -174,6 +174,22 @@ func (c *compiler) addMetadata() {
 					sig.DefaultValue = int(def.IntValue)
 				}
 			}
+		case *dbc.SignalValueTypeDef:
+			sig, ok := c.db.Signal(def.MessageID.ToCAN(), string(def.SignalName))
+			if !ok {
+				c.addWarning(&compileError{def: def, reason: "no declared signal"})
+				continue
+			}
+			switch def.SignalValueType {
+			case dbc.SignalValueTypeInt:
+				sig.ValueType = descriptor.SignalValueTypeInt
+			case dbc.SignalValueTypeFloat32:
+				sig.ValueType = descriptor.SignalValueTypeFloat32
+			case dbc.SignalValueTypeFloat64:
+				sig.ValueType = descriptor.SignalValueTypeFloat64
+			default:
+				c.addWarning(&compileError{def: def, reason: "unknown signal value type"})
+			}
 		}
 	}
 }
